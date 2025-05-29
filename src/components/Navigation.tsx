@@ -13,8 +13,8 @@ const Navigation = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                StudyConnect
+              <h1 className="text-2xl font-bold text-black">
+                L-earn
               </h1>
             </Link>
           </div>
@@ -22,13 +22,13 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
-              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors duration-200">
+              <a href="#about" className="text-black hover:text-[#2209FC] transition-colors duration-200">
                 About
               </a>
-              <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors duration-200">
+              <a href="#features" className="text-black hover:text-[#2209FC] transition-colors duration-200">
                 Features
               </a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors duration-200">
+              <a href="#contact" className="text-black hover:text-[#2209FC] transition-colors duration-200">
                 Contact
               </a>
             </div>
@@ -36,10 +36,10 @@ const Navigation = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex space-x-4">
-            <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50" asChild>
+            <Button variant="outline" className="border-[#2209FC] text-[#2209FC] hover:bg-[#D7E6FC]" asChild>
               <Link to="/auth">Log In</Link>
             </Button>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white" asChild>
+            <Button className="bg-[#2209FC] hover:bg-[#1a07d4] text-white" asChild>
               <Link to="/auth">Get Started</Link>
             </Button>
           </div>
@@ -48,7 +48,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              className="text-black hover:text-[#2209FC] focus:outline-none"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -61,20 +61,20 @@ const Navigation = () => {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-              <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-blue-600">
+              <a href="#about" className="block px-3 py-2 text-black hover:text-[#2209FC]">
                 About
               </a>
-              <a href="#features" className="block px-3 py-2 text-gray-700 hover:text-blue-600">
+              <a href="#features" className="block px-3 py-2 text-black hover:text-[#2209FC]">
                 Features
               </a>
-              <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-blue-600">
+              <a href="#contact" className="block px-3 py-2 text-black hover:text-[#2209FC]">
                 Contact
               </a>
               <div className="flex flex-col space-y-2 pt-4">
-                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50" asChild>
+                <Button variant="outline" className="border-[#2209FC] text-[#2209FC] hover:bg-[#D7E6FC]" asChild>
                   <Link to="/auth">Log In</Link>
                 </Button>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white" asChild>
+                <Button className="bg-[#2209FC] hover:bg-[#1a07d4] text-white" asChild>
                   <Link to="/auth">Get Started</Link>
                 </Button>
               </div>
