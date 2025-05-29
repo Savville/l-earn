@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,9 +12,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              StudyConnect
-            </h1>
+            <Link to="/">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                StudyConnect
+              </h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -33,11 +36,11 @@ const Navigation = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex space-x-4">
-            <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50">
-              Log In
+            <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50" asChild>
+              <Link to="/auth">Log In</Link>
             </Button>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-              Get Started
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white" asChild>
+              <Link to="/auth">Get Started</Link>
             </Button>
           </div>
 
@@ -68,11 +71,11 @@ const Navigation = () => {
                 Contact
               </a>
               <div className="flex flex-col space-y-2 pt-4">
-                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50">
-                  Log In
+                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50" asChild>
+                  <Link to="/auth">Log In</Link>
                 </Button>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                  Get Started
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white" asChild>
+                  <Link to="/auth">Get Started</Link>
                 </Button>
               </div>
             </div>
