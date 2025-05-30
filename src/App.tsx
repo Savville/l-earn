@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -12,6 +11,9 @@ import ProjectDetails from "./pages/ProjectDetails";
 import ProfileSetup from "./pages/ProfileSetup";
 import InterestSelection from "./pages/InterestSelection";
 import NotFound from "./pages/NotFound";
+import Browse from "./pages/Browse";
+import Projects from "./pages/Projects";
+import Profiles from "./pages/Profiles";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/profiles" element={<Profiles />} />
           <Route path="/project/:id" element={<ProjectDetails />} />
           <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route path="/interests" element={<InterestSelection />} />

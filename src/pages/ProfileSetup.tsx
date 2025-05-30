@@ -1,11 +1,14 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Camera, Upload } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Camera, Upload, CheckCircle2, Pencil } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+
+const requiredFields = [
+  "fullName", "email", "phoneNumber", "userId", "whatsapp", "linkedin", "aboutMe", "course", "institution"
+];
 
 const ProfileSetup = () => {
   const [formData, setFormData] = useState({
@@ -21,25 +24,121 @@ const ProfileSetup = () => {
     institution: "Kenyatta University"
   });
 
+  const [bannerImage, setBannerImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [studentIdImage, setStudentIdImage] = useState<string | null>(null);
+  const [studentIdUploaded, setStudentIdUploaded] = useState(false);
+  const navigate = useNavigate();
+
+  const fieldRefs = {
+    fullName: useRef<HTMLInputElement>(null),
+    email: useRef<HTMLInputElement>(null),
+    phoneNumber: useRef<HTMLInputElement>(null),
+    userId: useRef<HTMLInputElement>(null),
+    whatsapp: useRef<HTMLInputElement>(null),
+    linkedin: useRef<HTMLInputElement>(null),
+    aboutMe: useRef<HTMLTextAreaElement>(null),
+    course: useRef<HTMLInputElement>(null),
+    institution: useRef<HTMLInputElement>(null),
+    studentId: useRef<HTMLDivElement>(null),
+  };
+
+  const studentIdInputRef = useRef<HTMLInputElement>(null);
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  // Helper to create a preview URL and clean up old ones
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setImage: React.Dispatch<React.SetStateAction<string | null>>
+  ) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImage(prev => {
+        if (prev) URL.revokeObjectURL(prev);
+        return url;
+      });
+    }
+  };
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    requiredFields.forEach(field => {
+      if (!formData[field]) {
+        newErrors[field] = "This field is required";
+      }
+    });
+    if (!studentIdImage) {
+      newErrors["studentId"] = "Student ID proof is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      navigate("/interests");
+    } else {
+      // Find the first field with an error and scroll to it
+      const firstErrorField = Object.keys(errors).find((key) => errors[key]);
+      if (firstErrorField && fieldRefs[firstErrorField]?.current) {
+        fieldRefs[firstErrorField].current.scrollIntoView({ behavior: "smooth", block: "center" });
+        // Optionally, focus the field if it's an input or textarea
+        if (fieldRefs[firstErrorField].current instanceof HTMLInputElement ||
+            fieldRefs[firstErrorField].current instanceof HTMLTextAreaElement) {
+          fieldRefs[firstErrorField].current.focus();
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    const firstErrorField = Object.keys(errors).find((key) => errors[key]);
+    if (firstErrorField && fieldRefs[firstErrorField]?.current) {
+      fieldRefs[firstErrorField].current.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (fieldRefs[firstErrorField].current instanceof HTMLInputElement ||
+          fieldRefs[firstErrorField].current instanceof HTMLTextAreaElement) {
+        fieldRefs[firstErrorField].current.focus();
+      }
+    }
+  }, [errors]);
 
   return (
     <div className="min-h-screen bg-gray-50 font-poppins">
       {/* Background Image Section - Desktop */}
       <div className="hidden lg:block relative h-48 bg-gradient-to-r from-blue-400 to-cyan-300">
         <img 
-          src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=1200&q=80"
+          src={bannerImage || "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=1200&q=80"}
           alt="Background"
           className="w-full h-full object-cover"
         />
+        {/* Camera Button and File Input for Banner */}
+        <input
+          type="file"
+          accept="image/jpeg"
+          style={{ display: "none" }}
+          id="banner-upload"
+          onChange={(e) => handleImageChange(e, setBannerImage)}
+        />
+        <button
+          type="button"
+          className="absolute bottom-2 right-2 w-7 h-7 rounded-full shadow-lg flex items-center justify-center bg-gray-100 hover:bg-white transition-colors duration-200 group"
+          onClick={() => document.getElementById("banner-upload")?.click()}
+          title="Change banner image"
+        >
+          <Camera className="h-4 w-4 text-gray-600 group-hover:text-gray-800 transition-colors duration-200" />
+        </button>
       </div>
 
       {/* Mobile Background */}
       <div className="lg:hidden relative h-32 bg-gradient-to-r from-blue-400 to-cyan-300">
         <img 
-          src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=800&q=80"
+          src={bannerImage || "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=800&q=80"}
           alt="Background"
           className="w-full h-full object-cover"
         />
@@ -47,33 +146,38 @@ const ProfileSetup = () => {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Profile Image */}
-        <div className="relative -mt-16 lg:-mt-24 mb-8 flex justify-center lg:justify-start">
+        <div className="relative -mt-16 lg:-mt-48 mb-8 flex justify-center">
           <div className="relative">
-            <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
+            <div className="w-24 h-24 lg:w-64 lg:h-64 rounded-full overflow-hidden border-4 border-white shadow-lg transition-all duration-300">
               <img 
-                src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=200&q=80"
+                src={profileImage || "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=200&q=80"}
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
             </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-              <Camera className="h-4 w-4 text-gray-600" />
+            {/* Camera Button and File Input */}
+            <input
+              type="file"
+              accept="image/jpeg"
+              style={{ display: "none" }}
+              id="profile-upload"
+              onChange={(e) => handleImageChange(e, setProfileImage)}
+            />
+            <button
+              type="button"
+              className="absolute bottom-0 right-0 w-6 h-6 rounded-full shadow-lg flex items-center justify-center bg-gray-100 hover:bg-white transition-colors duration-200 group"
+              onClick={() => document.getElementById("profile-upload")?.click()}
+            >
+              <Camera className="h-3.5 w-3.5 text-gray-600 group-hover:text-gray-800 transition-colors duration-200" />
             </button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left side - Desktop image */}
-          <div className="hidden lg:block">
-            <img 
-              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80"
-              alt="Student"
-              className="w-full h-auto rounded-lg shadow-lg"
-            />
-          </div>
+          
 
           {/* Right side - Form */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <Card className="bg-white shadow-lg border-none">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="text-xl font-bold text-black">Profile</CardTitle>
@@ -86,48 +190,103 @@ const ProfileSetup = () => {
               <CardContent className="space-y-6">
                 {/* Basic Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-[#D7E6FC] p-3 rounded">
+                  <div className="bg-[#D7E6FC] p-3 rounded relative">
+                    {errors.fullName && (
+                      <span className="absolute left-2 top-1 text-xs text-red-500">{errors.fullName}</span>
+                    )}
                     <label className="text-sm font-medium text-gray-700">Full name</label>
-                    <div className="text-black font-medium">{formData.fullName}</div>
+                    <Input
+                      ref={fieldRefs.fullName}
+                      className="mt-1"
+                      value={formData.fullName}
+                      onChange={(e) => {
+                        handleInputChange('fullName', e.target.value);
+                        if (e.target.value) setErrors(prev => ({ ...prev, fullName: "" }));
+                      }}
+                    />
+                    {errors.fullName && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.fullName}</span>
+                    )}
                   </div>
                   <div className="bg-[#D7E6FC] p-3 rounded">
                     <label className="text-sm font-medium text-gray-700">Email</label>
-                    <div className="text-black font-medium">{formData.email}</div>
+                    <Input
+                      ref={fieldRefs.email}
+                      className="mt-1"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                    />
+                    {errors.email && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.email}</span>
+                    )}
                   </div>
                   <div className="bg-[#D7E6FC] p-3 rounded">
                     <label className="text-sm font-medium text-gray-700">Phone number</label>
-                    <div className="text-black font-medium">{formData.phoneNumber}</div>
+                    <Input
+                      ref={fieldRefs.phoneNumber}
+                      className="mt-1"
+                      value={formData.phoneNumber}
+                      onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
+                    />
+                    {errors.phoneNumber && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.phoneNumber}</span>
+                    )}
                   </div>
                   <div className="bg-[#D7E6FC] p-3 rounded">
                     <label className="text-sm font-medium text-gray-700">User ID</label>
-                    <div className="text-black font-medium">{formData.userId}</div>
+                    <Input
+                      ref={fieldRefs.userId}
+                      className="mt-1"
+                      value={formData.userId}
+                      onChange={(e) => handleInputChange('userId', e.target.value)}
+                    />
+                    {errors.userId && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.userId}</span>
+                    )}
                   </div>
                 </div>
 
                 {/* Social Links */}
                 <div>
                   <h3 className="font-medium text-black mb-3">Add links to socials</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-green-500 rounded"></div>
-                      <span className="text-sm font-medium">Whatsapp No :</span>
-                      <span className="text-sm">{formData.whatsapp}</span>
-                      <div className="w-2 h-2 bg-blue-500 rounded ml-auto"></div>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-blue-600 rounded"></div>
-                      <span className="text-sm font-medium">Linkedin :</span>
-                      <span className="text-sm flex-1 truncate">{formData.linkedin}</span>
-                      <div className="w-2 h-2 bg-blue-500 rounded"></div>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Others:</label>
-                      <Input 
-                        className="mt-1"
-                        value={formData.others}
-                        onChange={(e) => handleInputChange('others', e.target.value)}
-                      />
-                    </div>
+                  <div className="bg-[#D7E6FC] p-3 rounded relative space-y-3">
+                    {/* WhatsApp Field */}
+                    {errors.whatsapp && (
+                      <span className="absolute left-2 top-1 text-xs text-red-500">{errors.whatsapp}</span>
+                    )}
+                    <label className="text-sm font-medium text-gray-700">Whatsapp No :</label>
+                    <Input
+                      ref={fieldRefs.whatsapp}
+                      className="mt-1"
+                      value={formData.whatsapp}
+                      onChange={(e) => {
+                        handleInputChange('whatsapp', e.target.value);
+                        if (e.target.value) setErrors(prev => ({ ...prev, whatsapp: "" }));
+                      }}
+                    />
+                    {errors.whatsapp && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.whatsapp}</span>
+                    )}
+                    {/* LinkedIn Field */}
+                    <label className="text-sm font-medium text-gray-700 mt-3">Linkedin :</label>
+                    <Input
+                      ref={fieldRefs.linkedin}
+                      className="mt-1"
+                      value={formData.linkedin}
+                      onChange={(e) => handleInputChange('linkedin', e.target.value)}
+                    />
+                    {errors.linkedin && (
+                      <span className="text-xs text-red-500 mt-1 block">{errors.linkedin}</span>
+                    )}
+                  </div>
+                  {/* Others Field remains outside the blue box */}
+                  <div className="mt-3">
+                    <label className="text-sm font-medium text-gray-700">Others:</label>
+                    <Input 
+                      className="mt-1"
+                      value={formData.others}
+                      onChange={(e) => handleInputChange('others', e.target.value)}
+                    />
                   </div>
                 </div>
 
@@ -135,40 +294,104 @@ const ProfileSetup = () => {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">About me</label>
                   <Textarea 
+                    ref={fieldRefs.aboutMe}
                     className="w-full"
                     rows={3}
                     value={formData.aboutMe}
                     onChange={(e) => handleInputChange('aboutMe', e.target.value)}
                   />
+                  {errors.aboutMe && (
+                    <span className="text-xs text-red-500 mt-1 block">{errors.aboutMe}</span>
+                  )}
                 </div>
 
                 {/* Course */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Course</label>
                   <Input 
-                    className="bg-[#D7E6FC] border-none"
+                    ref={fieldRefs.course}
+                    className=""
                     value={formData.course}
                     onChange={(e) => handleInputChange('course', e.target.value)}
                   />
+                  {errors.course && (
+                    <span className="text-xs text-red-500 mt-1 block">{errors.course}</span>
+                  )}
                 </div>
 
                 {/* Institution */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Institution</label>
                   <Input 
-                    className="bg-[#D7E6FC] border-none"
+                    ref={fieldRefs.institution}
+                    className=""
                     value={formData.institution}
                     onChange={(e) => handleInputChange('institution', e.target.value)}
                   />
+                  {errors.institution && (
+                    <span className="text-xs text-red-500 mt-1 block">{errors.institution}</span>
+                  )}
                 </div>
 
                 {/* Proof of Studentship */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Proof of Studentship</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                    <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">Add photo of School ID</p>
+                  <div className="relative border border-gray-300 rounded px-3 h-12 flex items-center bg-white">
+                    <input
+                      ref={studentIdInputRef}
+                      type="file"
+                      accept="image/*"
+                      style={{ display: "none" }}
+                      id="student-id-upload"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const url = URL.createObjectURL(file);
+                          setStudentIdImage(url);
+                          setStudentIdUploaded(true);
+                          setErrors(prev => ({ ...prev, studentId: "" }));
+                        }
+                      }}
+                    />
+                    {!studentIdImage ? (
+                      <>
+                        <Upload className="h-5 w-5 text-gray-400 mr-2" />
+                        <span
+                          className="text-sm text-gray-500 cursor-pointer"
+                          onClick={() => studentIdInputRef.current?.click()}
+                        >
+                          Add photo of School ID
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-10 h-10 rounded bg-white border border-gray-200 overflow-hidden flex-shrink-0 mr-3 relative">
+                          <img src={studentIdImage} alt="Student ID" className="object-cover w-full h-full" />
+                        </div>
+                        <div className="flex items-center justify-center h-full">
+                          <CheckCircle2 className="text-green-500 mr-1" size={18} />
+                          <span className="text-green-700 text-xs font-semibold">Uploaded successfully</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="ml-auto p-1 rounded hover:bg-gray-200 transition-colors"
+                          onClick={() => studentIdInputRef.current?.click()}
+                          title="Edit ID"
+                        >
+                          <Pencil className="w-4 h-4 text-gray-500" />
+                        </button>
+                      </>
+                    )}
+                    {errors.studentId && (
+                      <span className="block text-xs text-red-500 mt-1">{errors.studentId}</span>
+                    )}
                   </div>
+                  {/* Please upload statement bottom left */}
+                  {!studentIdImage && (
+                    <div className="flex justify-start">
+                      <p className="text-xs text-yellow-600 mt-1">Please upload your student ID. You cannot proceed without it.</p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
@@ -176,14 +399,16 @@ const ProfileSetup = () => {
                   <Button 
                     className="flex-1 bg-[#2209FC] hover:bg-[#1a07d4] text-white py-3"
                     asChild
+                    onClick={handleSave}
                   >
-                    <Link to="/interests">Save profile</Link>
+                    <span>Save profile</span>
                   </Button>
                   <Button 
                     variant="outline" 
                     className="flex-1 border-gray-300 text-gray-700"
+                    onClick={() => navigate("/auth")}
                   >
-                    Skip
+                    Back
                   </Button>
                 </div>
               </CardContent>

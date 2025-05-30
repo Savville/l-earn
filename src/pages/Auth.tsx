@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -152,14 +151,14 @@ const Auth = () => {
                   <p className="text-sm text-gray-600 mb-4">Continue with</p>
                   
                   <div className="flex justify-center space-x-4">
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-red-500 font-bold">G</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-red-500 font-bold w-full text-center px-4">Google</span>
                     </button>
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-600 font-bold">f</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-blue-600 font-bold w-full text-center px-4">Facebook</span>
                     </button>
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-black font-bold">🍎</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-black font-bold w-full text-center px-4">Apple</span>
                     </button>
                   </div>
                 </div>
@@ -219,14 +218,14 @@ const Auth = () => {
                   <p className="text-sm text-gray-600 mb-4">Continue with</p>
                   
                   <div className="flex justify-center space-x-4">
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-red-500 font-bold">G</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-red-500 font-bold w-full text-center px-4">Google</span>
                     </button>
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-blue-600 font-bold">f</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-blue-600 font-bold w-full text-center px-4">Facebook</span>
                     </button>
-                    <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <span className="text-black font-bold">🍎</span>
+                    <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                      <span className="text-black font-bold w-full text-center px-4">Apple</span>
                     </button>
                   </div>
                 </div>
@@ -353,14 +352,14 @@ const Auth = () => {
                     <p className="text-sm text-gray-600 mb-4">Continue with</p>
                     
                     <div className="flex justify-center space-x-4">
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-red-500 font-bold">Google</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-red-500 font-bold w-full text-center px-4">Google</span>
                       </button>
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-blue-600 font-bold">Facebook</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-blue-600 font-bold w-full text-center px-4">Facebook</span>
                       </button>
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-black font-bold">Apple</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-black font-bold w-full text-center px-4">Apple</span>
                       </button>
                     </div>
                   </div>
@@ -420,14 +419,14 @@ const Auth = () => {
                     <p className="text-sm text-gray-600 mb-4">Continue with</p>
                     
                     <div className="flex justify-center space-x-4">
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-red-500 font-bold">Google</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-red-500 font-bold w-full text-center px-4">Google</span>
                       </button>
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-blue-600 font-bold">Facebook</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-blue-600 font-bold w-full text-center px-4">Facebook</span>
                       </button>
-                      <button className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <span className="text-black font-bold">Apple</span>
+                      <button className="flex-1 h-12 bg-gray-100 rounded-lg flex items-center justify-center min-w-[100px] max-w-[180px] px-0">
+                        <span className="text-black font-bold w-full text-center px-4">Apple</span>
                       </button>
                     </div>
                   </div>

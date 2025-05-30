@@ -93,20 +93,20 @@ const Dashboard = () => {
       </div>
 
       {/* Desktop Header */}
-      <div className="hidden lg:block bg-[#2209FC] text-white">
+      <div className="hidden lg:block bg-white text-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <span className="text-[#2209FC] font-bold text-sm">Lé</span>
+              <div className="w-8 h-8 bg-[#2209FC] rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">Lé</span>
               </div>
               <span className="font-bold">L-earn</span>
             </div>
             <div className="flex space-x-8">
-              <Link to="/" className="hover:text-[#D7E6FC]">Home</Link>
-              <Link to="/projects" className="hover:text-[#D7E6FC]">Projects</Link>
-              <Link to="/browse" className="hover:text-[#D7E6FC]">Browse</Link>
-              <Link to="/profiles" className="hover:text-[#D7E6FC]">Profiles</Link>
+              <Link to="/dashboard" className="text-[#2209FC] font-medium">Dashboard</Link>
+              <Link to="/projects" className="text-gray-600 hover:text-[#D7E6FC]">Projects</Link>
+              <Link to="/browse" className="text-gray-600 hover:text-[#D7E6FC]">Browse</Link>
+              <Link to="/profiles" className="text-gray-600 hover:text-[#D7E6FC]">Profiles</Link>
             </div>
           </div>
         </div>
